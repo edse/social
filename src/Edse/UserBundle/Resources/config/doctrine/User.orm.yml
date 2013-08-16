@@ -1,0 +1,28 @@
+# src/Acme/UserBundle/Resources/config/doctrine/User.orm.yml
+Edse\UserBundle\Entity\User:
+    type:  entity
+    table: fos_user
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        twitter_id:
+            type: string
+            length: 255
+        twitter_access_token:
+            type: string
+            length: 255
+        facebook_id:
+            type: string
+            length: 255
+        facebook_access_token:
+            type: string
+            length: 255
+        google_id:
+            type: string
+            length: 255
+        google_access_token:
+            type: string
+            length: 255

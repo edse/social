@@ -1,0 +1,87 @@
+security:
+    encoders:
+        #Symfony\Component\Security\Core\User\User: plaintext
+        FOS\UserBundle\Model\UserInterface: sha512
+
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: ROLE_ADMIN
+
+    providers:
+        #in_memory:
+            #memory:
+                #users:
+                    #user:  { password: userpass, roles: [ 'ROLE_USER' ] }
+                    #admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
+                    
+        #my_custom_hwi_provider:
+             #id: edse_user.oauth_user_provider
+             
+        fos_userbundle:
+            #id: fos_user.user_provider.username
+            id: fos_user.user_manager
+
+    firewalls:
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            pattern:                    ^/
+            form_login:
+                provider: fos_userbundle
+                csrf_provider: form.csrf_provider
+                login_path: /login
+                check_path: /login_check
+            oauth:
+                resource_owners:
+                    facebook:           "/login/check-facebook"
+                    google:             "/login/check-google"
+                    twitter:            "/login/check-twitter"
+                login_path:             /login
+                failure_path:           /login
+                oauth_user_provider:
+                    service: edse_user.oauth_user_provider
+            logout:
+                path: /logout
+                target: /
+            anonymous:                  true
+
+
+        #login:
+            #pattern:  ^/demo/secured/login$
+            #security: false
+
+        login:
+            pattern:  ^/login$
+            security: false
+            remember_me:
+                key: "%secret%"
+                lifetime: 31536000 # 365 days in seconds
+                path: /
+                domain: ~ # Defaults to the current domain from $_SERVER
+
+        #secured_area:
+            #pattern:    ^/demo/secured/
+            #form_login:
+                #check_path: _security_check
+                #login_path: _demo_login
+            #logout:
+                #path:   _demo_logout
+                #target: _demo
+            #anonymous: ~
+            #http_basic:
+            #    realm: "Secured Demo Area"
+
+    access_control:      
+        - { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/connect, role: IS_AUTHENTICATED_ANONYMOUSLY }       
+        - { path: ^/, role: ROLE_USER }      
+
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/, role: ROLE_ADMIN }
+
+    #access_control:
+        #- { path: ^/demo/secured/hello/admin/, roles: ROLE_ADMIN }
+        ##- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }

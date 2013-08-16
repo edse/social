@@ -1,0 +1,8 @@
+parameters:
+  #edse_user.oauth_user_provider.class: Edse\UserBundle\Model\OAuthUserProvider
+  edse_user.oauth_user_provider.class: Edse\UserBundle\Security\Core\User\FOSUBUserProvider
+
+services:
+  edse_user.oauth_user_provider:
+    class: %edse_user.oauth_user_provider.class%
+    arguments: [@fos_user.user_manager,{facebook: facebook_id, google: google_id, twitter: twitter_id}]
