@@ -11,18 +11,24 @@ Edse\UserBundle\Entity\User:
         twitter_id:
             type: string
             length: 255
+            nullable: true
         twitter_access_token:
             type: string
             length: 255
+            nullable: true
         facebook_id:
             type: string
             length: 255
+            nullable: true
         facebook_access_token:
             type: string
             length: 255
+            nullable: true
         google_id:
             type: string
             length: 255
+            nullable: true
         google_access_token:
             type: string
             length: 255
+            nullable: true

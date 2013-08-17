@@ -56,8 +56,8 @@ class FOSUBUserProvider extends BaseClass
             //I have set all requested data with the user's username
             //modify here with relevant data
             $user->setUsername($username);
-            $user->setEmail($username);
-            $user->setPassword($username);
+            $user->setEmail($response->getRealName());
+            $user->setPassword($response->getNickName());
             $user->setEnabled(true);
             $this->userManager->updateUser($user);
             return $user;
